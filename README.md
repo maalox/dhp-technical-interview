@@ -7,21 +7,21 @@ This project is setup similar to how we develop our software at Teva, so you can
 #### Assignment
 Using the following project scaffolding implement the four user stories:
 
-User Story: As a user I want the ability to see my account data, and the account data for any of my dependents.
-API: /account
-Method: GET
+**User Story:** As a user I want the ability to see my account data, and the account data for any of my dependents.
+**API:** /account
+**Method:** GET
 
-User Story: As a user I want the ability to create a account.
-API: /account/profile
-Method: POST
+**User Story:** As a user I want the ability to create a account.
+**API:** /account/profile
+**Method:** POST
 
-User Story: As a user I want the ability to add my dependents to my account.
-API: /account/dependent
-Method: POST
+**User Story:** As a user I want the ability to add my dependents to my account.
+**API:** /account/dependent
+**Method:** POST
 
-User Story: As a user I want the ability to update my account.
-API: /account/profile
-Method: PUT
+**User Story:** As a user I want the ability to update my account.
+**API:** /account/profile
+**Method:** PUT
 
 #### Interview Requirements:
 
