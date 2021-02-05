@@ -1,0 +1,34 @@
+[
+    {
+        "pkey": "46233413-9f5b-44f7-a1d8-2d87da93b611",
+        "firstName": "Alex",
+        "lastName": "Stares",
+        "email": "alex.stares@example.com",
+        "dateOfBirth": "1990-01-01",
+        "locale": "en-US"
+    },
+    {
+        "pkey": "ecbcb6e6-10b5-4649-a5d1-fb15320bb94d",
+        "firstName": "Yaron",
+        "lastName": "Near",
+        "email": "yaron.near@example.com",
+        "dateOfBirth": "1990-01-01",
+        "locale": "en-US"
+    },
+    {
+        "pkey": "01ffa1ce-a40a-4fb2-9b27-fa1be66f4328",
+        "firstName": "Eric",
+        "lastName": "Can",
+        "email": "eric.can@example.com",
+        "dateOfBirth": "1990-01-01",
+        "locale": "en-US"
+    },
+    {
+        "pkey": "464ad453-da21-4a32-bb6f-78429b7aefc0",
+        "firstName": "Cody",
+        "lastName": "Silver",
+        "email": "cody.silver@example.com",
+        "dateOfBirth": "1990-01-01",
+        "locale": "en-US"
+    }
+]

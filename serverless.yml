@@ -1,0 +1,82 @@
+service: serverless-example
+
+plugins:
+  - serverless-plugin-typescript
+  - serverless-dynamodb-local
+  - serverless-offline
+
+provider:
+  name: aws
+  runtime: nodejs12.x
+  lambdaHashingVersion: 20201221
+  apiGateway:
+    shouldStartNameWithService: true
+  environment:
+
+custom:
+  serverless-offline:
+    port: 8001  
+  dynamodb:
+    stages:
+      - dev
+    start:
+      migrate: true
+      port: 8000
+      inMemory: true
+      heapInitial: 200m
+      heapMax: 1g
+      convertEmptyValues: true
+      seed: true
+    seed: 
+      domain:
+        sources:
+          - table: profiles
+            sources: [./seed/profiles.json]
+
+functions:
+  database:
+    handler: src/handler.interview
+    events:
+      - http:
+          path: database
+          method: get
+  acount:
+    handler: src/handler.account
+    events:
+      - http:
+          path: account
+          method: get
+  profile:
+    handler: src/handler.profile
+    events:
+      - http:
+          path: account/profile
+          method: post
+  profileUpdate:
+    handler: src/handler.profileUpdate
+    events:
+      - http:
+          path: account/profile
+          method: put         
+  dependent:
+    handler: src/handler.dependent
+    events:
+      - http:
+          path: account/dependent
+          method: post                             
+                        
+resources:
+  Resources:          
+      ProfilesTable:
+        Type: AWS::DynamoDB::Table
+        Properties:
+          TableName: profiles
+          BillingMode: PAY_PER_REQUEST
+          PointInTimeRecoverySpecification:
+            PointInTimeRecoveryEnabled: true
+          AttributeDefinitions:
+            - AttributeName: pkey
+              AttributeType: S
+          KeySchema:
+            - AttributeName: pkey
+              KeyType: HASH
