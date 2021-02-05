@@ -73,3 +73,4 @@ This will start an offline version of DynamoDB and the existing serverless proje
 ## DynamoDB Offline
 
 This project uses an offline version of dyanmoDB. You can find seed data in ./seed/profiles.json, and you may modify in any way you might need to complete this task. The database is in memory, so the database will be repopulated between restarts of serverless.
+
