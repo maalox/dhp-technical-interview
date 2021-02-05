@@ -4,23 +4,39 @@ The goal of this project is assess how you would architect a few APIs that exist
 
 This project is setup similar to how we develop our software at Teva, so you can find Swagger documents found in ./swagger for these APIs with example payloads. There's also a Postman collection provided to make it easier to test as you go.
 
-#### Assignment
+### Assignment
 Using the following project scaffolding implement the four user stories:
 
+#### Story 1
+
 **User Story:** As a user I want the ability to see my account data, and the account data for any of my dependents.
+
 **API:** /account
+
 **Method:** GET
 
+#### Story 2
+
 **User Story:** As a user I want the ability to create a account.
+
 **API:** /account/profile
+
 **Method:** POST
+
+#### Story 3
 
 **User Story:** As a user I want the ability to add my dependents to my account.
+
 **API:** /account/dependent
+
 **Method:** POST
 
+#### Story 4
+
 **User Story:** As a user I want the ability to update my account.
+
 **API:** /account/profile
+
 **Method:** PUT
 
 #### Interview Requirements:
