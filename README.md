@@ -9,7 +9,7 @@ Using the following project scaffolding implement two user stories:
 
 #### Story 1
 
-**User Story:** As a user I want the ability to see my account data, and the account data for any of my dependents.
+**User Story:** As a user I want the ability to see my account data.
 
 **API:** /account
 
@@ -17,7 +17,7 @@ Using the following project scaffolding implement two user stories:
 
 #### Story 2
 
-**User Story:** As a user I want the ability to create a account.
+**User Story:** As a user I want the ability to create an account.
 
 **API:** /account/profile
 
