@@ -121,21 +121,3 @@ exports.profile = async function (event: APIGatewayEvent, context: Context, call
 
   callback(null, apiResponse);
 }
-
-exports.profileUpdate = async function (event: APIGatewayEvent, context: Context, callback) {
-  callback(null, {
-    statusCode: 200
-  });
-}
-
-exports.dependent = async function (event: APIGatewayEvent, context: Context, callback) {
-
-  let profileCreationStub = { "userID": uuidv4() }
-
-  let apiResponse: ApiResponse = {
-    statusCode: 200,
-    body: JSON.stringify(profileCreationStub)
-  }
-
-  callback(null, apiResponse);
-}

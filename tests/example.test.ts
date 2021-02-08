@@ -40,28 +40,3 @@ describe('Profile Creation Test', () => {
             });
     });
 });
-
-describe('Profile Update Test', () => {
-    it('success', async () => {
-
-        await LambdaTester(profileUpdate)
-            .event({})
-            .expectResult((result: ApiResponse) => {
-                expect(result.statusCode).to.equal(200);
-            });
-    });
-});
-
-describe('Dependent Creation Test', () => {
-    it('success', async () => {
-
-        await LambdaTester(dependent)
-            .event({})
-            .expectResult((result: ApiResponse) => {
-                expect(result.statusCode).to.equal(200);
-
-                let profileResponse: ProfileCreation = JSON.parse(result.body) as ProfileCreation;
-                expect(profileResponse.userID).to.exist;
-            });
-    });
-});

@@ -1,426 +1,200 @@
----
 openapi: 3.0.0
+servers:
+- url: http://localhost:3000/dev/
+  description: Serverless Offline
+
+paths:
+  /account:              
+    get:                                                 
+        tags:
+            - Account
+        description: Get user account information. An account is comprised of profiles, and dependents.
+        parameters:
+            - $ref: "#/components/parameters/userID"
+        responses:
+            '200':
+                description: User account returned.
+                headers:
+                    application:
+                        $ref: "#/components/headers/application" 
+                content:
+                    application/json:
+                        examples:
+                           Account:
+                               $ref: "#/components/examples/AccountWithNoDependents"
+
+            '404':
+                description: No account found.
+                headers:
+                    application:
+                        $ref: "#/components/headers/application"                   
+               
+        summary: Returns account details.   
+
+
+  /account/profile:
+    post:
+        tags:
+            - Account
+        description: Create's a new profile.
+        requestBody:
+            $ref: "#/components/requestBodies/CreateProfile"        
+
+        responses:
+            '200':
+                description: Succesfully created a profile.   
+                headers:
+                    application:
+                        $ref: "#/components/headers/application" 
+                content:
+                    application/json:
+                        schema:
+                            type: object
+                            properties:
+                                userID:
+                                    type: string
+                                    example: "30934fe0-51ab-4b1e-af23-8ba44358234d"          
+            '400':
+                description: Invalid request.
+                headers:
+                    application:
+                        $ref: "#/components/headers/application"
+                content:
+                    application/json:
+                        schema:
+                            type: object
+                            properties:
+                                message:
+                                    type: string
+                                    example: "Unable to create a profile"  
+        summary: Create a patient. 
+        
+components:
+
+    headers:
+      application:
+        description: The version of servers with the date of the last build
+        schema:
+            type: string
+            example: "Digital Health Platform/3.3.0/20200105"
+            
+            
+    parameters:        
+        userID:
+            in: header
+            name: userID
+            description: An UUID representing a user account.
+            schema:
+                type: string
+                example: "30934fe0-51ab-4b1e-af23-8ba44358234d"
+            required: true    
+
+    requestBodies: 
+    
+      CreateProfile:
+          description: Represents a profile creation payload
+          content:
+              application/json:
+                  schema:
+                    type: object
+                    required:
+                        - timestamp
+                        - patient
+                    properties:
+                            timestamp:
+                                $ref: "#/components/schemas/ISO8601" 
+                            patient:
+                                 $ref: "#/components/schemas/Patient" 
+                  examples:
+                    CreatePatientProfile:
+                        $ref: "#/components/examples/CreatePatientProfile" 
+                    CreatePatientProfileNoDob:
+                        $ref: "#/components/examples/CreatePatientProfileNoDob" 
+                    CreatePatientProfileDobNoDay:    
+                        $ref: "#/components/examples/CreatePatientProfileDobNoDay"
+                        
+    examples:
+    
+        AccountWithNoDependents:
+            description: Represents a user's account with no programs or dependents. 
+            value:
+                account:
+                  userID: "6ab2c811-858f-43bb-8b85-9a98c7091880"
+                  firstName: "Tony"
+                  lastName: "Pizza"
+                  dateOfBirth: "1990-01-01"
+                  email: "tony.pizza@example.com" 
+                  locale: "en-US"
+
+        CreatePatientProfile:
+            summary: Create a profile for a patient.
+            value:
+                timestamp: "2020-01-01T00:00:00+05:00"
+                patient: 
+                    firstName: "Tony"
+                    lastName: "Pizza"
+                    dateOfBirth: '1990-01-01'
+                    locale: "en-US"
+        
+        CreatePatientProfileNoDob:
+            summary: Create a profile for a patient without DOB.
+            value:
+                timestamp: "2020-01-01T00:00:00+04:00"
+                patient: 
+                    firstName: "Alex"
+                    lastName: "Ayers"
+                    locale: "en-US"
+        
+        CreatePatientProfileDobNoDay:
+            summary: Create a profile for a patient with partial DOB.
+            value:
+                timestamp: "2020-01-01T00:00:00+04:00"
+                patient: 
+                    firstName: "Tony"
+                    lastName: "Pizza"
+                    dateOfBirth: "1950-01"
+                    locale: "en-US"
+
+    schemas:
+        Patient:
+            description: Represents a patient.
+            type: object
+            required:
+                - firstName
+                - lastName
+                - locale
+            properties:
+                firstName:
+                    type: string
+                    description: The first name of the patient.
+                    example: Timmy
+                lastName:
+                    type: string
+                    description: The last name of the patient.
+                    example: Peapod
+                locale:
+                    type: string
+                    description: The user's locale this can be xx or xx-XX. 
+                    example: "en-US"    
+                dateOfBirth:
+                    type: string
+                    format: date
+                    pattern: /([0-9]{4})-(?:[0-9]{2})-([0-9]{2})/
+                    description: The date of birth of the patient.   
+                    example: "2010-01-01"
+
+        ISO8601:
+            type: string
+            description: An ISO8601 date time representing the device's local time.
+            format: date-time     
+            example: "2020-01-01T12:30:00+04:00"
+
 info:
+  license:
+    name: MIT
+  version: 1.0.0
   title: DHP Technical Interview
   description: The following APIs should be implemented as part of the DHP Technical Interview Process.
   contact:
     name: Alex Ayers
     email: alex.ayers@tevapharm.com
-  license:
-    name: MIT
-  version: 1.0.0
-servers:
-- url: http://localhost:3000/dev/
-  description: Serverless Offline
-paths:
-  /account:
-    get:
-      tags:
-      - Account
-      summary: Returns account details.
-      description: Get user account information. An account is comprised of profiles, and dependents.
-      parameters:
-      - name: userID
-        in: header
-        description: An UUID representing a user account.
-        required: true
-        style: simple
-        explode: false
-        schema:
-          type: string
-          example: 30934fe0-51ab-4b1e-af23-8ba44358234d
-      responses:
-        "200":
-          description: User account returned.
-          headers:
-            application:
-              $ref: '#/components/headers/application'
-          content:
-            application/json:
-              examples:
-                AccountWithNoDependents:
-                  $ref: '#/components/examples/AccountWithNoDependents'
-                AccountWithDependents:
-                  $ref: '#/components/examples/AccountWithDependents'
-        "404":
-          description: No account found.
-          headers:
-            application:
-              $ref: '#/components/headers/application'
-  /account/profile:
-    put:
-      tags:
-      - Account
-      summary: Update a patient or a dependent.
-      description: Update a patient profile or a dependent profile.
-      parameters:
-      - name: userID
-        in: header
-        description: An UUID representing a user account.
-        required: true
-        style: simple
-        explode: false
-        schema:
-          type: string
-          example: 30934fe0-51ab-4b1e-af23-8ba44358234d
-      requestBody:
-        $ref: '#/components/requestBodies/UpdateProfile'
-      responses:
-        "200":
-          description: Succesfully updated a profile.
-          headers:
-            application:
-              $ref: '#/components/headers/application'
-        "400":
-          description: Invalid request.
-          headers:
-            application:
-              $ref: '#/components/headers/application'
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/inline_response_400'
-    post:
-      tags:
-      - Account
-      summary: Create a patient.
-      description: Create's a new profile.
-      requestBody:
-        $ref: '#/components/requestBodies/CreateProfile'
-      responses:
-        "200":
-          description: Succesfully created a profile.
-          headers:
-            application:
-              $ref: '#/components/headers/application'
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/inline_response_200'
-        "400":
-          description: Invalid request.
-          headers:
-            application:
-              $ref: '#/components/headers/application'
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/inline_response_400_1'
-  /account/dependent:
-    post:
-      tags:
-      - Account
-      summary: Create a dependent.
-      description: Add a new dependent profile and associate it with the account of user supplied in the header.
-      parameters:
-      - name: userID
-        in: header
-        description: An UUID representing a user account.
-        required: true
-        style: simple
-        explode: false
-        schema:
-          type: string
-          example: 30934fe0-51ab-4b1e-af23-8ba44358234d
-      requestBody:
-        $ref: '#/components/requestBodies/DependentCreation'
-      responses:
-        "200":
-          description: Succesfully added new dependent.
-          headers:
-            application:
-              $ref: '#/components/headers/application'
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/inline_response_200'
-        "400":
-          description: Invalid request.
-          headers:
-            application:
-              $ref: '#/components/headers/application'
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/inline_response_400_2'
-components:
-  schemas:
-    Patient:
-      required:
-      - firstName
-      - lastName
-      - locale
-      type: object
-      properties:
-        firstName:
-          type: string
-          description: The first name of the patient.
-          example: Timmy
-        lastName:
-          type: string
-          description: The last name of the patient.
-          example: Peapod
-        locale:
-          type: string
-          description: The user's locale this can be xx or xx-XX.
-          example: en-US
-        dateOfBirth:
-          pattern: /([0-9]{4})-(?:[0-9]{2})-([0-9]{2})/
-          type: string
-          description: The date of birth of the patient.
-          format: date
-          example: 2010-01-01
-      description: Represents a patient.
-    PatientUpdate:
-      type: object
-      properties:
-        firstName:
-          type: string
-          description: The first name of the patient.
-          example: Timmy
-        lastName:
-          type: string
-          description: The last name of the patient.
-          example: Peapod
-        locale:
-          type: string
-          description: This field stores the patient locale. xx or xx-XX.
-          example: en-US
-        dateOfBirth:
-          pattern: /([0-9]{4})-(?:[0-9]{2})-([0-9]{2})/
-          type: string
-          description: The date of birth of the patient.
-          format: date
-          example: 2010-01-01
-        ageOfMajority:
-          pattern: /([0-9]{4})-(?:[0-9]{2})-([0-9]{2})/
-          type: string
-          description: The date of birth of the patient.
-          format: date
-          example: 2010-01-01
-      description: Represents an update to a patient or a dependent.
-    Dependent:
-      required:
-      - ageOfMajority
-      - dependentID
-      - firstName
-      - lastName
-      - locale
-      type: object
-      properties:
-        firstName:
-          type: string
-          description: The first name of the patient.
-          example: Timmy
-        lastName:
-          type: string
-          description: The last name of the patient.
-          example: Peapod
-        dateOfBirth:
-          pattern: /([0-9]{4})-(?:[0-9]{2})-([0-9]{2})/
-          type: string
-          description: The date of birth of the patient.
-          format: date
-          example: 2010-01-01
-        ageOfMajority:
-          pattern: /([0-9]{4})-(?:[0-9]{2})-([0-9]{2})/
-          type: string
-          description: The date of the patient reaches the age of majority in their region.
-          format: date
-          example: 2030-01-01
-        locale:
-          type: string
-          description: The locale of the dependent. xx or xx-XX.
-          example: en-US
-      description: Represents a dependent.
-    ISO8601:
-      type: string
-      description: An ISO8601 date time representing the device's local time.
-      format: date-time
-      example: 2020-01-01T12:30:00+04:00
-    inline_response_400:
-      type: object
-      properties:
-        message:
-          type: string
-          example: Unable to update profile
-    inline_response_200:
-      type: object
-      properties:
-        userID:
-          type: string
-          example: 30934fe0-51ab-4b1e-af23-8ba44358234d
-    inline_response_400_1:
-      type: object
-      properties:
-        message:
-          type: string
-          example: Unable to create a profile
-    inline_response_400_2:
-      type: object
-      properties:
-        message:
-          type: string
-          example: Unable to add dependent
-  parameters:
-    userID:
-      name: userID
-      in: header
-      description: An UUID representing a user account.
-      required: true
-      style: simple
-      explode: false
-      schema:
-        type: string
-        example: 30934fe0-51ab-4b1e-af23-8ba44358234d
-  examples:
-    AccountWithNoDependents:
-      description: Represents a user's account with no programs or dependents.
-      value:
-        account:
-          userID: 6ab2c811-858f-43bb-8b85-9a98c7091880
-          firstName: Tony
-          lastName: Pizza
-          dateOfBirth: 1990-01-01
-          email: tony.pizza@example.com
-          locale: en-US
-    AccountWithDependents:
-      description: Represents a user's account with dependents.
-      value:
-        account:
-          userID: 6ab2c811-858f-43bb-8b85-9a98c7091880
-          firstName: Tony
-          lastName: Pizza
-          dateOfBirth: 1990-01-01
-          email: tony.pizza@example.com
-          locale: en-US
-          dependents:
-          - userID: a6300500-3624-455b-94de-0a36b8b23bdb
-            firstName: Skippy
-            lastName: Pizza
-            dateOfBirth: 2021-02-04
-            ageOfMajority: 2039-02-04
-          - userID: 58aa2975-2b25-4436-8138-15af75dfaa46
-            firstName: Penlope
-            lastName: Pizza
-            dateOfBirth: 2022-02-04
-            ageOfMajority: 2040-02-04
-    CreatePatientProfile:
-      summary: Create a profile for a patient.
-      value:
-        timestamp: 2020-01-01T00:00:00+05:00
-        patient:
-          firstName: Tony
-          lastName: Pizza
-          dateOfBirth: 1990-01-01
-          locale: en-US
-    CreatePatientProfileNoDob:
-      summary: Create a profile for a patient without DOB.
-      value:
-        timestamp: 2020-01-01T00:00:00+04:00
-        patient:
-          firstName: Alex
-          lastName: Ayers
-          locale: en-US
-    CreatePatientProfileDobNoDay:
-      summary: Create a profile for a patient with partial DOB.
-      value:
-        timestamp: 2020-01-01T00:00:00+04:00
-        patient:
-          firstName: Tony
-          lastName: Pizza
-          dateOfBirth: 1950-01
-          locale: en-US
-    UpdatePatientProfile:
-      summary: Updates a profile for a patient.
-      value:
-        timestamp: 2020-01-01T00:00:00+04:00
-        patient:
-          firstName: Tony
-          lastName: Pizza
-          dateOfBirth: 1990-01-01
-          locale: en-US
-    UpdateDependentProfile:
-      summary: Updates a profile for a dependent.
-      value:
-        timestamp: 2020-01-01T00:00:00+04:00
-        patient:
-          firstName: Skippy
-          lastName: Lou
-          dateOfBirth: 2022-02-04
-          ageOfMajority: 2040-02-04
-          locale: en-US
-    CreateDependentProfile:
-      summary: Create a dependent profile.
-      value:
-        timestamp: 2020-01-01T00:00:00+04:00
-        dependent:
-          firstName: Skippy
-          lastName: Lou
-          dateOfBirth: 2021-02-04
-          ageOfMajority: 2039-02-04
-          locale: en-US
-  requestBodies:
-    CreateProfile:
-      description: Represents a profile creation payload
-      content:
-        application/json:
-          schema:
-            required:
-            - patient
-            - timestamp
-            type: object
-            properties:
-              timestamp:
-                $ref: '#/components/schemas/ISO8601'
-              patient:
-                $ref: '#/components/schemas/Patient'
-          examples:
-            CreatePatientProfile:
-              $ref: '#/components/examples/CreatePatientProfile'
-            CreatePatientProfileNoDob:
-              $ref: '#/components/examples/CreatePatientProfileNoDob'
-            CreatePatientProfileDobNoDay:
-              $ref: '#/components/examples/CreatePatientProfileDobNoDay'
-    UpdateProfile:
-      description: Represents a profile update payload
-      content:
-        application/json:
-          schema:
-            required:
-            - patient
-            - timestamp
-            type: object
-            properties:
-              timestamp:
-                $ref: '#/components/schemas/ISO8601'
-              patient:
-                $ref: '#/components/schemas/PatientUpdate'
-          examples:
-            UpdatePatientProfile:
-              $ref: '#/components/examples/UpdatePatientProfile'
-    DependentCreation:
-      description: Represents a dependent creation payload
-      content:
-        application/json:
-          schema:
-            required:
-            - dependent
-            - timestamp
-            type: object
-            properties:
-              timestamp:
-                $ref: '#/components/schemas/ISO8601'
-              dependent:
-                $ref: '#/components/schemas/Dependent'
-          examples:
-            CreateDependentProfile:
-              $ref: '#/components/examples/CreateDependentProfile'
-  headers:
-    application:
-      description: The version of servers with the date of the last build
-      style: simple
-      explode: false
-      schema:
-        type: string
-        example: Digital Health Platform/3.3.0/20200105
