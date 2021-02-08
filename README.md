@@ -1,11 +1,11 @@
 # Digital Health Platform Technical Interview
 
-The goal of this project is assess how you would architect a few APIs that exist as part of a larger project. We'll do a code review using screen sharing during your interview, and you should be ready to answer questions related to your approach, and be ready to explain how you might change the structure if given new requirements. 
+The goal of this project is assess how you would architect a two APIs that exist as part of a larger project. We'll do a code review using screen sharing during your interview, and you should be ready to answer questions related to your approach, and be ready to explain how you might change the structure if given new requirements. 
 
 This project is setup similar to how we develop our software at Teva, so you can find Swagger documents found in ./swagger for these APIs with example payloads. There's also a Postman collection provided to make it easier to test as you go.
 
 ### Assignment
-Using the following project scaffolding implement the four user stories:
+Using the following project scaffolding implement two user stories:
 
 #### Story 1
 
@@ -22,22 +22,6 @@ Using the following project scaffolding implement the four user stories:
 **API:** /account/profile
 
 **Method:** POST
-
-#### Story 3
-
-**User Story:** As a user I want the ability to add my dependents to my account.
-
-**API:** /account/dependent
-
-**Method:** POST
-
-#### Story 4
-
-**User Story:** As a user I want the ability to update my account.
-
-**API:** /account/profile
-
-**Method:** PUT
 
 #### Interview Requirements:
 

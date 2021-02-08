@@ -52,19 +52,7 @@ functions:
       - http:
           path: account/profile
           method: post
-  profileUpdate:
-    handler: src/handler.profileUpdate
-    events:
-      - http:
-          path: account/profile
-          method: put         
-  dependent:
-    handler: src/handler.dependent
-    events:
-      - http:
-          path: account/dependent
-          method: post                             
-                        
+                                           
 resources:
   Resources:          
       ProfilesTable:
