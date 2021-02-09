@@ -37,10 +37,11 @@ You'll need NodeJS. https://nodejs.org/en/
 
 Run the following commands to get setup:
 
-1. npm install serverless-dynamodb-local
-2. npm install serverless-offline
-3. serverless dynamodb install
-4. npm install
+1. npm install -g serverless
+2. npm install serverless-dynamodb-local
+3. npm install serverless-offline
+4. serverless dynamodb install
+5. npm install
 
 ## NPM Commands
 
