@@ -1,6 +1,6 @@
 # Digital Health Platform Technical Interview
 
-The goal of this project is assess how you would architect a two APIs that exist as part of a larger project. We'll do a code review using screen sharing during your interview, and you should be ready to answer questions related to your approach, and be ready to explain how you might change the structure if given new requirements. 
+The goal of this project is assess how you would architect two APIs that exist as part of a larger project. We'll do a code review using screen sharing during your interview, and you should be ready to answer questions related to your approach, and be ready to explain how you might change the structure if given new requirements. 
 
 This project is setup similar to how we develop our software at Teva, so you can find Swagger documents found in ./swagger for these APIs with example payloads. There's also a Postman collection provided to make it easier to test as you go.
 
